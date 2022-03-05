@@ -1,4 +1,5 @@
 import { useBoardsDispatch } from 'hooks';
+import { useListInput } from 'hooks';
 import { DragDropContext, DraggableLocation } from 'react-beautiful-dnd';
 import { IList } from 'types';
 import { List } from './List/List';
@@ -7,10 +8,14 @@ import * as Styled from './Lists.styled';
 
 interface ListsProps {
   lists: IList[];
+  boardId: string;
 }
 
-export const Lists = ({ lists }: ListsProps) => {
+export const Lists = ({ lists, boardId }: ListsProps) => {
   const { reorderGivenLists } = useBoardsDispatch();
+  const {
+    actions: { handleOnChange, handleOnKeyPress }
+  } = useListInput(boardId);
   const listsToRender = lists.map(list => (
     <Styled.DroppableCardsList droppableId={list.listId}>
       {provided => {
@@ -40,7 +45,14 @@ export const Lists = ({ lists }: ListsProps) => {
         handleDragEnd(lists, source, destination)
       }
     >
-      <Styled.Lists>{listsToRender}</Styled.Lists>
+      <Styled.Lists>
+        {listsToRender}
+        <Styled.AddListInput
+          onChange={handleOnChange}
+          onKeyPress={handleOnKeyPress}
+          placeholder={'Add list...'}
+        />
+      </Styled.Lists>
     </DragDropContext>
   );
 };

@@ -11,14 +11,14 @@ import * as Styled from './Board.styled';
 export const Board = () => {
   const { boards } = useAppSelector(selectBoards);
   const param = useParams();
-  const [{ lists, boardName }] = boards.filter(
+  const [{ lists, boardName, boardId }] = boards.filter(
     ({ boardSlug }) => boardSlug === param.boardSlug
   );
 
   return (
     <Styled.BoardWrapper>
       <BoardHeader boardName={boardName} />
-      <Lists lists={lists} />
+      <Lists lists={lists} boardId={boardId} />
     </Styled.BoardWrapper>
   );
 };

@@ -3,9 +3,10 @@ import styled from 'styled-components';
 
 export const Lists = styled.ul`
   display: grid;
-  grid-template-columns: auto;
+  grid-auto-columns: 300px;
   grid-auto-flow: column;
-  grid-gap: 1rem;
+  column-gap: 1rem;
+  justify-items: start;
 
   overflow-x: scroll;
   -ms-overflow-style: none; /* IE and Edge */
@@ -29,14 +30,12 @@ export const AddListInput = styled.input`
 `;
 AddListInput.displayName = 'Styled.AddListInput';
 
-// >>>>>>>>>>>>.
-
 export const List = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 50px;
 
-  width: 300px;
+  /* width: 300px; */
 
   padding: 0.7rem;
 
