@@ -12,13 +12,14 @@ export const useCardInput = (currentListId: string) => {
   };
 
   const handleOnKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    const newCard = { cardId: uuidv4(), cardName: cardInputValue };
-    if (event.key !== 'Enter' || !cardInputValue) {
-      return;
-    }
+    const shouldCardBeAdded =
+      event.key === 'Enter' && cardInputValue.trim().length > 1;
+    if (!shouldCardBeAdded) return;
 
-    addNewTaskToList({ newCard, currentListId });
+    const newCard = { cardId: uuidv4(), cardName: cardInputValue };
+
     setCardInputValue('');
+    addNewTaskToList({ newCard, currentListId });
   };
 
   const handleDragEnd = (updatedCards: ICard[]) => {

@@ -12,18 +12,18 @@ export const useListInput = (currentBoardId: string) => {
   };
 
   const handleOnKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    const shouldUpdateList = event.key === 'Enter' && listInputValue;
-    if (!shouldUpdateList) {
-      return;
-    }
+    const shouldUpdateList =
+      event.key === 'Enter' && listInputValue.trim().length > 1;
+    if (!shouldUpdateList) return;
+
     const newList = {
       listId: uuidv4(),
       listName: listInputValue,
       cards: [] as ICard[]
     };
 
-    addNewListToBoard({ newList, currentBoardId });
     setListInputValue('');
+    addNewListToBoard({ newList, currentBoardId });
   };
 
   return {

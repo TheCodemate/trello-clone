@@ -14,7 +14,8 @@ interface ListsProps {
 export const Lists = ({ lists, boardId }: ListsProps) => {
   const { reorderGivenLists } = useBoardsDispatch();
   const {
-    actions: { handleOnChange, handleOnKeyPress }
+    actions: { handleOnChange, handleOnKeyPress },
+    state: { listInputValue }
   } = useListInput(boardId);
   const listsToRender = lists.map(list => (
     <Styled.DroppableCardsList droppableId={list.listId}>
@@ -51,6 +52,7 @@ export const Lists = ({ lists, boardId }: ListsProps) => {
           onChange={handleOnChange}
           onKeyPress={handleOnKeyPress}
           placeholder={'Add list...'}
+          value={listInputValue}
         />
       </Styled.Lists>
     </DragDropContext>

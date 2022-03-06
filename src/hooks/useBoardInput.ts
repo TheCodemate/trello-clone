@@ -2,6 +2,7 @@ import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useBoardsDispatch } from 'hooks';
 import { IList } from 'types';
+import { createSlug } from 'utils';
 
 export const useBoardInput = () => {
   const [boardInputValue, setListInputValue] = useState('');
@@ -12,23 +13,10 @@ export const useBoardInput = () => {
   };
 
   const handleOnKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    const shouldUpdateBoards = event.key === 'Enter' && boardInputValue;
-    const createSlug = (valuesToCreateSlugFrom: string) => {
-      const values = valuesToCreateSlugFrom.split(' ');
-      const valuesTransformedToLowerCase = values.map(value =>
-        value
-          .split('')
-          .map(letter => letter.toLowerCase())
-          .join('')
-      );
+    const shouldUpdateBoards =
+      event.key === 'Enter' && boardInputValue.trim().length > 1;
+    if (!shouldUpdateBoards) return;
 
-      const newSlug = valuesTransformedToLowerCase.join('-');
-      return newSlug;
-    };
-
-    if (!shouldUpdateBoards) {
-      return;
-    }
     const newBoard = {
       boardId: uuidv4(),
       boardName: boardInputValue,
@@ -36,8 +24,8 @@ export const useBoardInput = () => {
       lists: [] as IList[]
     };
 
-    addNewBoardToBoards({ newBoard });
     setListInputValue('');
+    addNewBoardToBoards({ newBoard });
   };
 
   return {
